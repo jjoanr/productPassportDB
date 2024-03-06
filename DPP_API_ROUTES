@@ -1,0 +1,24 @@
+-----------------------------
+|   DATABASE API ROUTES:    |
+-----------------------------
+
+*All tables have the same operations -> GET ALL, CREATE, GET BY ID, UPDATE BY ID, DELETE
+
+example for user accounts:
+
+  GET ALL - Obtain all user accounts: 
+      GET http://localhost:3000/users 
+
+  CREATE - Create a new user account: 
+      POST http://localhost:3000/users 
+      req.body all the information necessary for the creation (user_id, username, password, email)
+
+  GET BY ID - Get user account by user_id:
+      GET http://localhost:3000/users/user_id
+
+  UPDATE BY ID - Update information about a a user account identifyed by user_id:
+      PUT http://localhost:3000/users/user_id 
+      req.body all the information necessary for the update (user_id, username, password, email)
+
+  DELETE - Delete user account:
+      DELETE http://localhost:3000/users
