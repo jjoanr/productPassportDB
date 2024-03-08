@@ -1,0 +1,26 @@
+version: '3'
+services:
+  db:
+    image: mariadb:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: digitalProductPassport
+      MYSQL_USER: dpp
+      MYSQL_PASSWORD: dpp123
+    volumes:
+      - ./db/data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  api:
+    build: ./api
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USER: dpp
+      DB_PASSWORD: dpp123
+      DB_NAME: digitalProductPassport
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
