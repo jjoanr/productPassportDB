@@ -14,12 +14,6 @@ services:
 
   api:
     build: .
-    environment:
-      DB_HOST: db
-      DB_PORT: 3306
-      DB_USER: dpp
-      DB_PASSWORD: dpp123
-      DB_NAME: digitalProductPassport
     ports:
       - "3000:3000"
     depends_on:
