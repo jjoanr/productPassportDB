@@ -3,12 +3,12 @@ services:
   db:
     image: mariadb:latest
     environment:
-      MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: digitalProductPassport
       MYSQL_USER: dpp
       MYSQL_PASSWORD: dpp123
     volumes:
       - ./db/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    #command: bash -c "chmod 777 /docker-entrypoint-initdb.d/schema.sql"
     ports:
       - "3306:3306"
 
