@@ -3,8 +3,8 @@ CREATE DATABASE IF NOT EXISTS digitalProductPassport;
 USE digitalProductPassport;
 
 -- Crear usuario administrador --
-CREATE USER 'dpp'@'localhost' IDENTIFIED BY 'dpp123';
-GRANT ALL PRIVILEGES ON digitalProductPassport.* TO 'dpp'@'localhost';
+CREATE USER 'dpp'@'%' IDENTIFIED BY 'dpp123';
+GRANT ALL PRIVILEGES ON digitalProductPassport.* TO 'dpp'@'%';
 
 -- Crear tabla usuarios --
 CREATE TABLE IF NOT EXISTS user_accounts (

@@ -28,6 +28,14 @@ const createUser = async (req, res) => {
 
 const getUserById = async (req, res) => {
   // Logica para obtener un usuario de la base de datos
+  const user_id = req.user_id;
+  try {
+    const [rows, fields] = await db.query('SELECT * FROM user_accounts WHERE user_id = ?', [user_id]);
+    res.json(rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
 };
 
 const updateUser = async (req, res) => {
