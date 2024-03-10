@@ -3,6 +3,7 @@ services:
   db:
     image: mariadb:latest
     environment:
+      MARIADB_ROOT_PASSWORD: root
       MYSQL_DATABASE: digitalProductPassport
       MYSQL_USER: dpp
       MYSQL_PASSWORD: dpp123

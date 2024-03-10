@@ -2,6 +2,9 @@ CREATE DATABASE IF NOT EXISTS digitalProductPassport;
 
 USE digitalProductPassport;
 
+-- Drop user if exists
+DROP USER IF EXISTS 'dpp'@'%';
+
 -- Crear usuario administrador --
 CREATE USER 'dpp'@'%' IDENTIFIED BY 'dpp123';
 GRANT ALL PRIVILEGES ON digitalProductPassport.* TO 'dpp'@'%';
