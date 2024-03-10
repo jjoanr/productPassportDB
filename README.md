@@ -22,4 +22,4 @@ Example for user accounts:
       - *req.body:* All the information necessary for the update (username, password, email)
 
   - **DELETE** - Delete user account:
-      - Endpoint: DELETE http://localhost:3000/users
+      - Endpoint: DELETE http://localhost:3000/users/user_id
