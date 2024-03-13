@@ -9,9 +9,9 @@ const productController = require('../controllers/productController');
 
 // Definir rutas para operaciones relacionadas con productos
 router.get('/', productController.getAllProducts);
-router.get('/:id', productController.getProductById);
 router.post('/', productController.createProduct);
-router.put('/:id', productController.updateProduct);
-router.delete('/:id', productController.deleteProduct);
+router.get('/:product_id', productController.getProductById);
+router.put('/:product_id', productController.updateProduct);
+router.delete('/:product_id', productController.deleteProduct);
 
 module.exports = router;

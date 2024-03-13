@@ -10,8 +10,8 @@ const movementController = require('../controllers/movementController');
 // Definir las rutas para el controlador de movimientos
 router.get('/', movementController.getAllMovements);
 router.post('/', movementController.createMovement);
-router.get('/:movementId', movementController.getMovementById);
-router.put('/:movementId', movementController.updateMovement);
-router.delete('/:movementId', movementController.deleteMovement);
+router.get('/:movement_id', movementController.getMovementById);
+router.put('/:movement_id', movementController.updateMovement);
+router.delete('/:movement_id', movementController.deleteMovement);
 
 module.exports = router;

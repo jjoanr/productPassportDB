@@ -10,8 +10,8 @@ const companyController = require('../controllers/companyController');
 // Definir rutas para operaciones relacionadas con compañias
 router.get('/', companyController.getAllCompanies);
 router.post('/', companyController.createCompany);
-router.get('/:companyId', companyController.getCompanyById);
-router.put('/:companyId', companyController.updateCompany);
-router.delete('/:companyId', companyController.deleteCompany);
+router.get('/:company_id', companyController.getCompanyById);
+router.put('/:company_id', companyController.updateCompany);
+router.delete('/:company_id', companyController.deleteCompany);
 
 module.exports = router;
