@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS products (
   description TEXT,
   manufacturer_id INT,
   production_date DATE,
-  status ENUM('in_stock', 'in_use', 'in_repair', 'damaged', 'recycled', 'in_transit', 'discontinued', 'unserviceable') DEFAULT 'in stock',
+  status ENUM('in_stock', 'in_use', 'in_repair', 'damaged', 'recycled', 'in_transit', 'discontinued', 'unserviceable') DEFAULT 'in_stock',
   FOREIGN KEY (manufacturer_id) REFERENCES companies(company_id)
 );
 
@@ -55,6 +55,6 @@ CREATE TABLE IF NOT EXISTS movements (
   movement_type ENUM('sale', 'repair', 'return', 'refurbishment', 'maintenance') NOT NULL,
   movement_date DATE,
   description TEXT,
-  FOREIGN KEY (product_id) REFERENCES products(product_id)
+  FOREIGN KEY (product_id) REFERENCES products(product_id),
   FOREIGN KEY (employee_account_id) REFERENCES employee_accounts(employee_account_id)
 );

@@ -21,7 +21,7 @@ const createEmployee = async (req, res) => {
     const [rows, fields] = await db.query('INSERT INTO employee_accounts (employee_account_id, company_id, username, password, email) VALUES (?, ?, ?, ?, ?)', 
     [employee_account_id, company_id, username, password, email]);
 
-    res.status(201).json({ message: 'Employee accountcreated successfully' });
+    res.status(201).json({ message: 'Employee account created successfully' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
