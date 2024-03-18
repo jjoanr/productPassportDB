@@ -1,9 +1,9 @@
 ## Docker Compose Setup
-  - **Clone the repository**
+  - **Clone the repository**  
     git clone https://github.com/jjoanr/productPassportDB.git
-  - **Install dependencies**
+  - **Install dependencies**  
     npm install
-  - **Build images && run containers**
+  - **Build images && run containers**  
     docker-compose up --build
 
 ## Database API routes:
