@@ -1,6 +1,8 @@
 // api/controllers/companyController.js
 //Controlador para manejar las peticiones de compañias
 
+const db = require('../../db/connection');
+
 const getAllCompanies = async (req, res) => {
   // Logica para obtener todas las compañias de la base de datos
   try {

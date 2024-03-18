@@ -1,6 +1,8 @@
 // api/controllers/movementController.js
 // Controlador para manejar las peticiones de movimientos
 
+const db = require('../../db/connection');
+
 const getAllMovements = async (req, res) => {
   // Lógica para obtener todos los movimientos de la base de datos
   try {

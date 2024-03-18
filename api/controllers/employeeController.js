@@ -1,6 +1,8 @@
 // api/controllers/employeeController.js
 // Controlador para manejar las peticiones de cuentas de empleados
 
+const db = require('../../db/connection');
+
 const getAllEmployees = async (req, res) => {
   // Lógica para obtener todas las cuentas de empleados de la base de datos
   try {

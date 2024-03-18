@@ -1,6 +1,8 @@
 // api/controllers/productController.js
 // Controlador para manejar las peticiones de productos
 
+const db = require('../../db/connection');
+
 const getAllProducts = async (req, res) => {
   // Lógica para obtener todos los productos de la base de datos
   try {
