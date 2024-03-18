@@ -14,9 +14,10 @@ const getAllCompanies = async (req, res) => {
 
 const createCompany = async (req, res) => {
   // Logica para crear una nueva compañia en la base de datos
-  const { company_id, name, address, phone_number, email } = req.body;
+  const { company_id, company_name, address, phone_number, email } = req.body;
   try {
-    const [rows, fields] = await db.query('INSERT INTO companies (company_id, name, address, phone_number, email) VALUES (?, ?, ?, ?, ?)', [company_id, name, address, phone_number, email]);
+    const [rows, fields] = await db.query('INSERT INTO companies (company_id, company_name, address, phone_number, email) VALUES (?, ?, ?, ?, ?)', 
+    [company_id, company_name, address, phone_number, email]);
     res.status(201).json({ message: 'Company created successfully' });
   } catch (error) {
     console.error(error);
@@ -41,14 +42,15 @@ const getCompanyById = async (req, res) => {
 
 const updateCompany = async (req, res) => {
   // Logica para actualizar una compañia en la base de datos
-  const { name, address, phone_number, email } = req.body;
+  const { company_name, address, phone_number, email } = req.body;
   const company_id = req.params.company_id;
   try {
     const [rows, fields] = await db.query('SELECT * FROM companies WHERE company_id = ?', [company_id]);
     if (rows.length === 0) {
       return res.status(404).json({ message: 'Company not found' });
     }
-    await db.query('UPDATE companies SET name = ?, address = ?, phone_number = ?, email = ? WHERE company_id = ?', [name, address, phone_number, email, company_id]);
+    await db.query('UPDATE companies SET company_name = ?, address = ?, phone_number = ?, email = ? WHERE company_id = ?', 
+    [company_name, address, phone_number, email, company_id]);
     res.json({ message: 'Company updated successfully' });
   } catch (error) {
     console.error(error);

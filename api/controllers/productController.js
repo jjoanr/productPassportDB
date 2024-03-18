@@ -14,9 +14,11 @@ const getAllProducts = async (req, res) => {
 
 const createProduct = async (req, res) => {
   // Lógica para crear un nuevo producto en la base de datos
-  const { product_id, name, description, manufacturer_id, production_date, status } = req.body;
+  const { product_id, product_name, description, manufacturer_id, production_date, status } = req.body;
   try {
-    const [rows, fields] = await db.query('INSERT INTO products (product_id, name, description, manufacturer_id, production_date, status) VALUES (?, ?, ?, ?, ?, ?)', [product_id, name, description, manufacturer_id, production_date, status]);
+    const [rows, fields] = await db.query('INSERT INTO products (product_id, product_name, description, manufacturer_id, production_date, status) VALUES (?, ?, ?, ?, ?, ?)', 
+    [product_id, product_name, description, manufacturer_id, production_date, status]);
+
     res.status(201).json({ message: 'Product created successfully' });
   } catch (error) {
     console.error(error);
@@ -41,14 +43,16 @@ const getProductById = async (req, res) => {
 
 const updateProduct = async (req, res) => {
   // Lógica para actualizar un producto en la base de datos
-  const { name, description, manufacturer_id, production_date, status } = req.body;
+  const { product_name, description, manufacturer_id, production_date, status } = req.body;
   const product_id = req.params.product_id;
   try {
     const [rows, fields] = await db.query('SELECT * FROM products WHERE product_id = ?', [product_id]);
     if (rows.length === 0) {
       return res.status(404).json({ message: 'Product not found' });
     }
-    await db.query('UPDATE products SET name = ?, description = ?, manufacturer_id = ?, production_date = ?, status = ? WHERE product_id = ?', [name, description, manufacturer_id, production_date, status, product_id]);
+    await db.query('UPDATE products SET product_name = ?, description = ?, manufacturer_id = ?, production_date = ?, status = ? WHERE product_id = ?', 
+    [product_name, description, manufacturer_id, production_date, status, product_id]);
+    
     res.json({ message: 'Product updated successfully' });
   } catch (error) {
     console.error(error);

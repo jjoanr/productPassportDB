@@ -16,7 +16,9 @@ const createEmployee = async (req, res) => {
   // Lógica para crear una nueva cuenta de empleado en la base de datos
   const { employee_account_id, company_id, username, password, email } = req.body;
   try {
-    const [rows, fields] = await db.query('INSERT INTO employee_accounts (employee_account_id, company_id, username, password, email) VALUES (?, ?, ?, ?, ?)', [employee_account_id, company_id, username, password, email]);
+    const [rows, fields] = await db.query('INSERT INTO employee_accounts (employee_account_id, company_id, username, password, email) VALUES (?, ?, ?, ?, ?)', 
+    [employee_account_id, company_id, username, password, email]);
+
     res.status(201).json({ message: 'Employee accountcreated successfully' });
   } catch (error) {
     console.error(error);
@@ -48,7 +50,8 @@ const updateEmployee = async (req, res) => {
     if (rows.length === 0) {
       return res.status(404).json({ message: 'Employee account not found' });
     }
-    await db.query('UPDATE employee_accounts SET company_id = ?, username = ?, password = ?, email = ? WHERE user_id = ?', [company_id, username, password, email, employee_account_id]);
+    await db.query('UPDATE employee_accounts SET company_id = ?, username = ?, password = ?, email = ? WHERE user_id = ?', 
+    [company_id, username, password, email, employee_account_id]);
     res.json({ message: 'Employee account updated successfully' });
   } catch (error) {
     console.error(error);

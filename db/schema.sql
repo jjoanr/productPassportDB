@@ -2,7 +2,7 @@ CREATE DATABASE IF NOT EXISTS digitalProductPassport;
 
 USE digitalProductPassport;
 
--- Drop user if exists
+-- Eliminar usuario si existe --
 DROP USER IF EXISTS 'dpp'@'%';
 
 -- Crear usuario administrador --
@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS user_accounts (
 -- Crear tabla compañias --
 CREATE TABLE IF NOT EXISTS companies (
     company_id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
+    company_name VARCHAR(255) NOT NULL,
     address VARCHAR(255),
     phone_number VARCHAR(20),
     email VARCHAR(255)
@@ -39,11 +39,11 @@ CREATE TABLE IF NOT EXISTS employee_accounts (
 -- Crear tabla productos --
 CREATE TABLE IF NOT EXISTS products (
   product_id INT AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(255) NOT NULL,
+  product_name VARCHAR(255) NOT NULL,
   description TEXT,
   manufacturer_id INT,
   production_date DATE,
-  status ENUM('In stock', 'Sold', 'In repair', 'Damaged', 'Reconditioned', 'Returned', 'Unusable') DEFAULT 'In stock',
+  status ENUM('in_stock', 'in_use', 'in_repair', 'damaged', 'recycled', 'in_transit', 'discontinued', 'unserviceable') DEFAULT 'in stock',
   FOREIGN KEY (manufacturer_id) REFERENCES companies(company_id)
 );
 
@@ -51,9 +51,10 @@ CREATE TABLE IF NOT EXISTS products (
 CREATE TABLE IF NOT EXISTS movements (
   movement_id INT AUTO_INCREMENT PRIMARY KEY,
   product_id INT,
-  movement_type ENUM('Sale', 'Repair', 'Return', 'Reconditioning') NOT NULL,
+  employee_account_id INT,
+  movement_type ENUM('sale', 'repair', 'return', 'refurbishment', 'maintenance') NOT NULL,
   movement_date DATE,
   description TEXT,
-  result TEXT,
   FOREIGN KEY (product_id) REFERENCES products(product_id)
+  FOREIGN KEY (employee_account_id) REFERENCES employee_accounts(employee_account_id)
 );

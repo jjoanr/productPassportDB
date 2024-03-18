@@ -18,7 +18,8 @@ const createUser = async (req, res) => {
   // Logica para crear un usuario en la base de datos
   const { user_id, username, email, password } = req.body;
   try {
-    const [rows, fields] = await db.query('INSERT INTO user_accounts (user_id, username, password, email) VALUES (?, ?, ?, ?)', [user_id, username, password, email]);
+    const [rows, fields] = await db.query('INSERT INTO user_accounts (user_id, username, password, email) VALUES (?, ?, ?, ?)', 
+    [user_id, username, password, email]);
     res.status(201).json({ message: 'User created successfully' });
   } catch (error) {
     console.error(error);
@@ -50,7 +51,9 @@ const updateUser = async (req, res) => {
     if (rows.length === 0) {
       return res.status(404).json({ message: 'User not found' });
     }
-    await db.query('UPDATE user_accounts SET username = ?, email = ?, password = ? WHERE user_id = ?', [username, email, password, user_id]);
+    await db.query('UPDATE user_accounts SET username = ?, email = ?, password = ? WHERE user_id = ?', 
+    [username, email, password, user_id]);
+
     res.json({ message: 'User updated successfully' });
   } catch (error) {
     console.error(error);
