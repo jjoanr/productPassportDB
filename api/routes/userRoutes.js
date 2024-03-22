@@ -10,8 +10,9 @@ const userController = require('../controllers/userController');
 // Definir rutas para operaciones relacionadas con usuarios
 router.get('/', userController.getAllUsers);
 router.post('/', userController.createUser);
-router.get('/:user_id', userController.getUserById);
-router.put('/:user_id', userController.updateUser);
-router.delete('/:user_id', userController.deleteUser);
+router.post('/validate', userController.validateCredentials);
+router.get('/:username', userController.getUserByUsername);
+router.put('/:username', userController.updateUser);
+router.delete('/:username', userController.deleteUser);
 
 module.exports = router;

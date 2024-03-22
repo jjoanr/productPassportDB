@@ -16,7 +16,7 @@ const getAllUsers = async (req, res) => {
 
 const createUser = async (req, res) => {
   // Logica para crear un usuario en la base de datos
-  const { user_id, username, email, password } = req.body;
+  const { user_id, username, password, email } = req.body;
   try {
     const [rows, fields] = await db.query('INSERT INTO user_accounts (user_id, username, password, email) VALUES (?, ?, ?, ?)', 
     [user_id, username, password, email]);
@@ -27,11 +27,31 @@ const createUser = async (req, res) => {
   }
 };
 
-const getUserById = async (req, res) => {
-  // Logica para obtener un usuario de la base de datos
-  const user_id = req.params.user_id;
+const validateCredentials = async (req, res) => {
+  // Logica para verificar credenciales de un usuario
+  const { username, password } = req.body;
   try {
-    const [rows, fields] = await db.query('SELECT * FROM user_accounts WHERE user_id = ?', [user_id]);
+    const [rows, fields] = await db.query('SELECT * FROM user_accounts WHERE username = ?', [username]);
+    if(rows.length === 0) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    const storedPassword = rows[0].password;
+    if(storedPassword === password) {
+      return res.json({ message: 'Credentials validated successfully' });
+    } else {
+      return res.status(401).json({ message: 'Invalid password' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+const getUserByUsername = async (req, res) => {
+  // Logica para obtener un usuario de la base de datos
+  const username = req.params.username;
+  try {
+    const [rows, fields] = await db.query('SELECT * FROM user_accounts WHERE username = ?', [username]);
     if(rows.length === 0) {
       return res.status(404).json({ message: 'User not found' });
     }
@@ -44,15 +64,15 @@ const getUserById = async (req, res) => {
 
 const updateUser = async (req, res) => {
   // Logica para actualizar un usuario en la base de datos
-  const { username, email, password } = req.body;
-  const user_id = req.params.user_id;
+  const { newUsername, email, password } = req.body;
+  const username = req.params.username;
   try {
-    const [rows, fields] = await db.query('SELECT * FROM user_accounts WHERE user_id = ?', [user_id]);
+    const [rows, fields] = await db.query('SELECT * FROM user_accounts WHERE username = ?', [username]);
     if (rows.length === 0) {
       return res.status(404).json({ message: 'User not found' });
     }
-    await db.query('UPDATE user_accounts SET username = ?, email = ?, password = ? WHERE user_id = ?', 
-    [username, email, password, user_id]);
+    await db.query('UPDATE user_accounts SET username = ?, email = ?, password = ? WHERE username = ?', 
+    [newUsername, email, password, username]);
 
     res.json({ message: 'User updated successfully' });
   } catch (error) {
@@ -63,13 +83,13 @@ const updateUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
   // Logica para eliminar un usuario de la base de datos
-  const user_id = req.params.user_id;
+  const username = req.params.username;
   try {
-    const [rows, fields] = await db.query('SELECT * FROM user_accounts WHERE user_id = ?', [user_id]);
+    const [rows, fields] = await db.query('SELECT * FROM user_accounts WHERE username = ?', [username]);
     if (rows.length === 0) {
       return res.status(404).json({ message: 'User not found' });
     }
-    await db.query('DELETE FROM user_accounts WHERE user_id = ?', [user_id]);
+    await db.query('DELETE FROM user_accounts WHERE username = ?', [username]);
     res.json({ message: 'User deleted successfully' });
   } catch (error) {
     console.error(error);

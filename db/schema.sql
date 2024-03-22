@@ -12,7 +12,7 @@ GRANT ALL PRIVILEGES ON digitalProductPassport.* TO 'dpp'@'%';
 -- Crear tabla usuarios --
 CREATE TABLE IF NOT EXISTS user_accounts (
   user_id INT AUTO_INCREMENT PRIMARY KEY,
-  username VARCHAR(255) NOT NULL,
+  username VARCHAR(255) NOT NULL UNIQUE,
   password VARCHAR(255) NOT NULL,
   email VARCHAR(255)
 );
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS companies (
 CREATE TABLE IF NOT EXISTS employee_accounts (
   employee_account_id INT AUTO_INCREMENT PRIMARY KEY,
   company_id INT,
-  username VARCHAR(255) NOT NULL,
+  username VARCHAR(255) NOT NULL UNIQUE,
   password VARCHAR(255) NOT NULL,
   email VARCHAR(255),
   FOREIGN KEY (company_id) REFERENCES companies(company_id)
@@ -40,9 +40,9 @@ CREATE TABLE IF NOT EXISTS employee_accounts (
 CREATE TABLE IF NOT EXISTS products (
   product_id INT AUTO_INCREMENT PRIMARY KEY,
   product_name VARCHAR(255) NOT NULL,
-  description TEXT,
+  description TEXT NOT NULL,
   manufacturer_id INT,
-  production_date DATE,
+  production_date DATE NOT NULL,
   status ENUM('in_stock', 'in_use', 'in_repair', 'damaged', 'recycled', 'in_transit', 'discontinued', 'unserviceable') DEFAULT 'in_stock',
   FOREIGN KEY (manufacturer_id) REFERENCES companies(company_id)
 );
