@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS user_accounts (
 -- Crear tabla compañias --
 CREATE TABLE IF NOT EXISTS companies (
     company_id INT AUTO_INCREMENT PRIMARY KEY,
-    company_name VARCHAR(255) NOT NULL,
+    company_name VARCHAR(255) NOT NULL UNIQUE,
     address VARCHAR(255),
     phone_number VARCHAR(20),
     email VARCHAR(255)
@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS companies (
 
 -- Crear tabla cuentas de empleados --
 CREATE TABLE IF NOT EXISTS employee_accounts (
-  employee_account_id INT AUTO_INCREMENT PRIMARY KEY,
+  employee_id INT AUTO_INCREMENT PRIMARY KEY,
   company_id INT,
   password VARCHAR(255) NOT NULL,
   FOREIGN KEY (company_id) REFERENCES companies(company_id)
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS employee_accounts (
 -- Crear tabla productos --
 CREATE TABLE IF NOT EXISTS products (
   product_id INT AUTO_INCREMENT PRIMARY KEY,
-  product_name VARCHAR(255) NOT NULL,
+  product_name VARCHAR(255) NOT NULL UNIQUE,
   description TEXT NOT NULL,
   manufacturer_id INT,
   production_date DATE NOT NULL,
@@ -49,10 +49,10 @@ CREATE TABLE IF NOT EXISTS products (
 CREATE TABLE IF NOT EXISTS movements (
   movement_id INT AUTO_INCREMENT PRIMARY KEY,
   product_id INT,
-  employee_account_id INT,
+  employee_id INT,
   movement_type ENUM('sale', 'repair', 'return', 'refurbishment', 'maintenance') NOT NULL,
   movement_date DATE,
   description TEXT,
   FOREIGN KEY (product_id) REFERENCES products(product_id),
-  FOREIGN KEY (employee_account_id) REFERENCES employee_accounts(employee_account_id)
+  FOREIGN KEY (employee_id) REFERENCES employee_accounts(employee_id)
 );

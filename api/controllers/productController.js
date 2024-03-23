@@ -45,15 +45,15 @@ const getProductById = async (req, res) => {
 
 const updateProduct = async (req, res) => {
   // Lógica para actualizar un producto en la base de datos
-  const { product_name, description, manufacturer_id, production_date, status } = req.body;
+  const { product_name, description, status } = req.body;
   const product_id = req.params.product_id;
   try {
     const [rows, fields] = await db.query('SELECT * FROM products WHERE product_id = ?', [product_id]);
     if (rows.length === 0) {
       return res.status(404).json({ message: 'Product not found' });
     }
-    await db.query('UPDATE products SET product_name = ?, description = ?, manufacturer_id = ?, production_date = ?, status = ? WHERE product_id = ?', 
-    [product_name, description, manufacturer_id, production_date, status, product_id]);
+    await db.query('UPDATE products SET product_name = ?, description = ?, status = ? WHERE product_id = ?', 
+    [product_name, description, status, product_id]);
     
     res.status(201).json({ message: 'Product updated successfully' });
   } catch (error) {

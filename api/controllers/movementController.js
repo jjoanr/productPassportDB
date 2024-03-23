@@ -43,6 +43,21 @@ const getMovementById = async (req, res) => {
   }
 };
 
+const getMovementByProductId = async (req, res) => {
+  // Lógica para obtener un movimiento por la ID del producto
+  const product_id = req.params.product_id;
+  try {
+    const [rows, fields] = await db.query('SELECT * FROM movements WHERE product_id = ?', [product_id]);
+    if(rows.length === 0) {
+      return res.status(404).json({ message: 'Movements not found' });
+    }
+    res.status(201).json(rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
 const updateMovement = async (req, res) => {
   // Lógica para actualizar un movimiento en la base de datos
   const { product_id, employee_account_id, movement_type, movement_date, description } = req.body;
@@ -82,6 +97,7 @@ module.exports = {
   getAllMovements,
   createMovement,
   getMovementById,
+  getMovementByProductId,
   updateMovement,
   deleteMovement
 };

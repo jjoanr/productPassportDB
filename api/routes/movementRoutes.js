@@ -11,7 +11,8 @@ const movementController = require('../controllers/movementController');
 router.get('/', movementController.getAllMovements);
 router.post('/', movementController.createMovement);
 router.get('/:movement_id', movementController.getMovementById);
-router.put('/:movement_id', movementController.updateMovement);
+router.get('/product/:product_id', movementController.getMovementByProductId);
+//router.put('/:movement_id', movementController.updateMovement);
 router.delete('/:movement_id', movementController.deleteMovement);
 
 module.exports = router;
