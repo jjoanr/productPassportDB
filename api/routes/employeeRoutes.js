@@ -10,6 +10,7 @@ const employeeController = require('../controllers/employeeController');
 // Define routes for employee-related operations
 router.get('/', employeeController.getAllEmployees);
 router.post('/', employeeController.createEmployee);
+router.post('/validate', employeeController.validateCredentials);
 router.get('/:employee_id', employeeController.getEmployeeById);
 router.put('/:employee_id', employeeController.updateEmployee);
 router.delete('/:employee_id', employeeController.deleteEmployee);

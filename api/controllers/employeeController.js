@@ -28,6 +28,26 @@ const createEmployee = async (req, res) => {
   }
 };
 
+const validateCredentials = async (req, res) => {
+  // Logica para verificar credenciales de un usuario
+  const { username, password } = req.body;
+  try {
+    const [rows, fields] = await db.query('SELECT * FROM employee_accounts WHERE username = ?', [username]);
+    if(rows.length === 0) {
+      return res.status(404).json({ message: 'Employee not found' });
+    }
+    const storedPassword = rows[0].password;
+    if(storedPassword === password) {
+      return res.json({ message: 'Credentials validated successfully' });
+    } else {
+      return res.status(401).json({ message: 'Invalid password' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
 const getEmployeeById = async (req, res) => {
   // Lógica para obtener una cuenta de empleado por su ID de la base de datos
   const employee_account_id = req.params.employee_account_id;
