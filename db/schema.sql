@@ -30,9 +30,7 @@ CREATE TABLE IF NOT EXISTS companies (
 CREATE TABLE IF NOT EXISTS employee_accounts (
   employee_account_id INT AUTO_INCREMENT PRIMARY KEY,
   company_id INT,
-  username VARCHAR(255) NOT NULL UNIQUE,
   password VARCHAR(255) NOT NULL,
-  email VARCHAR(255),
   FOREIGN KEY (company_id) REFERENCES companies(company_id)
 );
 

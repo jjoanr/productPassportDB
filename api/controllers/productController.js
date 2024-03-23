@@ -7,7 +7,7 @@ const getAllProducts = async (req, res) => {
   // Lógica para obtener todos los productos de la base de datos
   try {
     const [rows, fields] = await db.query('SELECT * FROM products');
-    res.json(rows);
+    res.status(201).json(rows);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
@@ -36,7 +36,7 @@ const getProductById = async (req, res) => {
     if(rows.length === 0) {
       return res.status(404).json({ message: 'Product not found' });
     }
-    res.json(rows);
+    res.status(201).json(rows);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
@@ -55,7 +55,7 @@ const updateProduct = async (req, res) => {
     await db.query('UPDATE products SET product_name = ?, description = ?, manufacturer_id = ?, production_date = ?, status = ? WHERE product_id = ?', 
     [product_name, description, manufacturer_id, production_date, status, product_id]);
     
-    res.json({ message: 'Product updated successfully' });
+    res.status(201).json({ message: 'Product updated successfully' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
@@ -71,7 +71,7 @@ const deleteProduct = async (req, res) => {
       return res.status(404).json({ message: 'Product not found' });
     }
     await db.query('DELETE FROM products WHERE product_id = ?', [product_id]);
-    res.json({ message: 'Product deleted successfully' });
+    res.status(201).json({ message: 'Product deleted successfully' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });

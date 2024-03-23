@@ -7,7 +7,7 @@ const getAllEmployees = async (req, res) => {
   // Lógica para obtener todas las cuentas de empleados de la base de datos
   try {
     const [rows, fields] = await db.query('SELECT * FROM employee_accounts');
-    res.json(rows);
+    res.status(201).json(rows);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
@@ -29,16 +29,17 @@ const createEmployee = async (req, res) => {
 };
 
 const validateCredentials = async (req, res) => {
-  // Logica para verificar credenciales de un usuario
-  const { username, password } = req.body;
+  // Logica para verificar credenciales de un empleado
+  const { employee_account_id, password } = req.body;
   try {
-    const [rows, fields] = await db.query('SELECT * FROM employee_accounts WHERE username = ?', [username]);
+    const [rows, fields] = await db.query('SELECT * FROM employee_accounts WHERE employee_account_id = ?', [employee_account_id]);
+
     if(rows.length === 0) {
       return res.status(404).json({ message: 'Employee not found' });
     }
     const storedPassword = rows[0].password;
     if(storedPassword === password) {
-      return res.json({ message: 'Credentials validated successfully' });
+      return res.status(201).json({ message: 'Credentials validated successfully' });
     } else {
       return res.status(401).json({ message: 'Invalid password' });
     }
@@ -56,7 +57,7 @@ const getEmployeeById = async (req, res) => {
     if(rows.length === 0) {
       return res.status(404).json({ message: 'Employee account not found' });
     }
-    res.json(rows);
+    res.status(201).json(rows);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
@@ -74,7 +75,7 @@ const updateEmployee = async (req, res) => {
     }
     await db.query('UPDATE employee_accounts SET company_id = ?, username = ?, password = ?, email = ? WHERE user_id = ?', 
     [company_id, username, password, email, employee_account_id]);
-    res.json({ message: 'Employee account updated successfully' });
+    res.status(201).json({ message: 'Employee account updated successfully' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
@@ -90,7 +91,7 @@ const deleteEmployee = async (req, res) => {
       return res.status(404).json({ message: 'Employee account not found' });
     }
     await db.query('DELETE FROM employee_accounts WHERE employee_account_id = ?', [employee_account_id]);
-    res.json({ message: 'Employee account deleted successfully' });
+    res.status(201).json({ message: 'Employee account deleted successfully' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
@@ -100,6 +101,7 @@ const deleteEmployee = async (req, res) => {
 module.exports = {
   getAllEmployees,
   createEmployee,
+  validateCredentials,
   getEmployeeById,
   updateEmployee,
   deleteEmployee

@@ -7,7 +7,7 @@ const getAllUsers = async (req, res) => {
   // Logica para obtener todos los usuarios de la base de datos
   try {
     const [rows, fields] = await db.query('SELECT * FROM user_accounts');
-    res.json(rows);
+    res.status(201).json(rows);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
@@ -37,7 +37,7 @@ const validateCredentials = async (req, res) => {
     }
     const storedPassword = rows[0].password;
     if(storedPassword === password) {
-      return res.json({ message: 'Credentials validated successfully' });
+      return res.status(201).json({ message: 'Credentials validated successfully' });
     } else {
       return res.status(401).json({ message: 'Invalid password' });
     }
@@ -55,7 +55,7 @@ const getUserByUsername = async (req, res) => {
     if(rows.length === 0) {
       return res.status(404).json({ message: 'User not found' });
     }
-    res.json(rows);
+    res.status(201).json(rows);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
@@ -74,7 +74,7 @@ const updateUser = async (req, res) => {
     await db.query('UPDATE user_accounts SET username = ?, email = ?, password = ? WHERE username = ?', 
     [newUsername, email, password, username]);
 
-    res.json({ message: 'User updated successfully' });
+    res.status(201).json({ message: 'User updated successfully' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
@@ -90,7 +90,7 @@ const deleteUser = async (req, res) => {
       return res.status(404).json({ message: 'User not found' });
     }
     await db.query('DELETE FROM user_accounts WHERE username = ?', [username]);
-    res.json({ message: 'User deleted successfully' });
+    res.status(201).json({ message: 'User deleted successfully' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
@@ -100,7 +100,8 @@ const deleteUser = async (req, res) => {
 module.exports = {
   getAllUsers,
   createUser,
-  getUserById,
+  validateCredentials,
+  getUserByUsername,
   updateUser,
   deleteUser
 };

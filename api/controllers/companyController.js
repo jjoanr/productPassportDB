@@ -7,7 +7,7 @@ const getAllCompanies = async (req, res) => {
   // Logica para obtener todas las compañias de la base de datos
   try {
     const [rows, fields] = await db.query('SELECT * FROM companies');
-    res.json(rows);
+    res.status(201).json(rows);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
@@ -35,7 +35,7 @@ const getCompanyById = async (req, res) => {
     if(rows.length === 0) {
       return res.status(404).json({ message: 'Company not found' });
     }
-    res.json(rows);
+    res.status(201).json(rows);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
@@ -53,7 +53,7 @@ const updateCompany = async (req, res) => {
     }
     await db.query('UPDATE companies SET company_name = ?, address = ?, phone_number = ?, email = ? WHERE company_id = ?', 
     [company_name, address, phone_number, email, company_id]);
-    res.json({ message: 'Company updated successfully' });
+    res.status(201).json({ message: 'Company updated successfully' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
@@ -69,7 +69,7 @@ const deleteCompany = async (req, res) => {
       return res.status(404).json({ message: 'Company not found' });
     }
     await db.query('DELETE FROM companies WHERE company_id = ?', [company_id]);
-    res.json({ message: 'Company deleted successfully' });
+    res.status(201).json({ message: 'Company deleted successfully' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });

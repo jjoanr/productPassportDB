@@ -7,7 +7,7 @@ const getAllMovements = async (req, res) => {
   // Lógica para obtener todos los movimientos de la base de datos
   try {
     const [rows, fields] = await db.query('SELECT * FROM movements');
-    res.json(rows);
+    res.status(201).json(rows);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
@@ -36,7 +36,7 @@ const getMovementById = async (req, res) => {
     if(rows.length === 0) {
       return res.status(404).json({ message: 'Movement not found' });
     }
-    res.json(rows);
+    res.status(201).json(rows);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
@@ -55,7 +55,7 @@ const updateMovement = async (req, res) => {
     await db.query('UPDATE movements SET product_id = ?, employee_account_id = ?, movement_type = ?, movement_date = ?, description = ? WHERE movement_id = ?',
     [product_id, employee_account_id, movement_type, movement_date, description, movement_id]);
     
-    res.json({ message: 'Movement updated successfully' });
+    res.status(201).json({ message: 'Movement updated successfully' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
@@ -71,7 +71,7 @@ const deleteMovement = async (req, res) => {
       return res.status(404).json({ message: 'Movement not found' });
     }
     await db.query('DELETE FROM movement WHERE movement_id = ?', [movement_id]);
-    res.json({ message: 'Movement deleted successfully' });
+    res.status(201).json({ message: 'Movement deleted successfully' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
