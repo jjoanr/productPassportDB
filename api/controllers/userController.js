@@ -64,15 +64,15 @@ const getUserByUsername = async (req, res) => {
 
 const updateUser = async (req, res) => {
   // Logica para actualizar un usuario en la base de datos
-  const { username, email, password } = req.body;
-  const oldUsername = req.params.username;
+  const { newUsername, email, password } = req.body;
+  const username = req.params.username;
   try {
-    const [rows, fields] = await db.query('SELECT * FROM user_accounts WHERE username = ?', [oldUsername]);
+    const [rows, fields] = await db.query('SELECT * FROM user_accounts WHERE username = ?', [username]);
     if (rows.length === 0) {
       return res.status(404).json({ message: 'User not found' });
     }
     await db.query('UPDATE user_accounts SET username = ?, email = ?, password = ? WHERE username = ?', 
-    [username, email, password, oldUsername]);
+    [newUsername, email, password, username]);
 
     res.status(201).json({ message: 'User updated successfully' });
   } catch (error) {

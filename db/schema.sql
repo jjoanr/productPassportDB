@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS products (
   manufacturer_id INT, -- Empresa que ha fabricado el producto
   production_date DATE NOT NULL, -- Fecha de produción
   status ENUM('in_stock', 'in_use', 'in_repair', 'damaged', 'recycled', 'in_transit', 'discontinued', 'unserviceable') DEFAULT 'in_stock', -- Estado del producto
-  FOREIGN KEY (manufacturer_id) REFERENCES companies(company_id) ON DELETE CASCADE ON UPDATE CASCADE
+  FOREIGN KEY (manufacturer_id) REFERENCES companies(company_id)
 );
 
 -- Crear tabla movimientos de productos --
