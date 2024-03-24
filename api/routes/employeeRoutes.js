@@ -11,8 +11,8 @@ const employeeController = require('../controllers/employeeController');
 router.get('/', employeeController.getAllEmployees);
 router.post('/', employeeController.createEmployee);
 router.post('/validate', employeeController.validateCredentials);
-router.get('/:employee_id', employeeController.getEmployeeById);
-router.put('/:employee_id', employeeController.updateEmployee);
-router.delete('/:employee_id', employeeController.deleteEmployee);
+router.get('/:employee_code', employeeController.getEmployee);
+router.put('/:employee_code', employeeController.updateEmployee);
+router.delete('/:employee_code', employeeController.deleteEmployee);
 
 module.exports = router;

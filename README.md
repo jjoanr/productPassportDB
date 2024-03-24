@@ -11,5 +11,5 @@
 - [User endpoints](./EndpointsDocumentation/USERS.md) 
 - [Products endpoints](./EndpointsDocumentation/PRODUCTS.md)
 - [Movements endpoints](./EndpointsDocumentation/MOVEMENTS.md)
-- [Companies endpoints](./EndpointsDocumentation/COMPANIES.md)
 - [Employees endpoints](./EndpointsDocumentation/EMPLOYEES.md)
+- [Companies endpoints](./EndpointsDocumentation/COMPANIES.md)

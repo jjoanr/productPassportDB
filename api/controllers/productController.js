@@ -16,10 +16,10 @@ const getAllProducts = async (req, res) => {
 
 const createProduct = async (req, res) => {
   // Lógica para crear un nuevo producto en la base de datos
-  const { product_id, product_name, description, manufacturer_id, production_date, status } = req.body;
+  const { serial_number, product_name, description, manufacturer_id, production_date, status } = req.body;
   try {
-    const [rows, fields] = await db.query('INSERT INTO products (product_id, product_name, description, manufacturer_id, production_date, status) VALUES (?, ?, ?, ?, ?, ?)', 
-    [product_id, product_name, description, manufacturer_id, production_date, status]);
+    const [rows, fields] = await db.query('INSERT INTO products (serial_number, product_name, description, manufacturer_id, production_date, status) VALUES (?, ?, ?, ?, ?, ?)', 
+    [serial_number, product_name, description, manufacturer_id, production_date, status]);
 
     res.status(201).json({ message: 'Product created successfully' });
   } catch (error) {
@@ -28,11 +28,11 @@ const createProduct = async (req, res) => {
   }
 };
 
-const getProductById = async (req, res) => {
+const getProductBySN = async (req, res) => {
   // Lógica para obtener un producto por su ID de la base de datos
-  const product_id = req.params.product_id;
+  const serial_number = req.params.serial_number;
   try {
-    const [rows, fields] = await db.query('SELECT * FROM products WHERE product_id = ?', [product_id]);
+    const [rows, fields] = await db.query('SELECT * FROM products WHERE serial_number = ?', [serial_number]);
     if(rows.length === 0) {
       return res.status(404).json({ message: 'Product not found' });
     }
@@ -46,14 +46,14 @@ const getProductById = async (req, res) => {
 const updateProduct = async (req, res) => {
   // Lógica para actualizar un producto en la base de datos
   const { product_name, description, status } = req.body;
-  const product_id = req.params.product_id;
+  const serial_number = req.params.serial_number;
   try {
-    const [rows, fields] = await db.query('SELECT * FROM products WHERE product_id = ?', [product_id]);
+    const [rows, fields] = await db.query('SELECT * FROM products WHERE serial_number = ?', [serial_number]);
     if (rows.length === 0) {
       return res.status(404).json({ message: 'Product not found' });
     }
-    await db.query('UPDATE products SET product_name = ?, description = ?, status = ? WHERE product_id = ?', 
-    [product_name, description, status, product_id]);
+    await db.query('UPDATE products SET product_name = ?, description = ?, status = ? WHERE serial_number = ?', 
+    [product_name, description, status, serial_number]);
     
     res.status(201).json({ message: 'Product updated successfully' });
   } catch (error) {
@@ -64,13 +64,13 @@ const updateProduct = async (req, res) => {
 
 const deleteProduct = async (req, res) => {
   // Lógica para eliminar un producto de la base de datos
-  const product_id = req.params.product_id;
+  const serial_number = req.params.serial_number;
   try {
-    const [rows, fields] = await db.query('SELECT * FROM products WHERE product_id = ?', [product_id]);
+    const [rows, fields] = await db.query('SELECT * FROM products WHERE serial_number = ?', [serial_number]);
     if (rows.length === 0) {
       return res.status(404).json({ message: 'Product not found' });
     }
-    await db.query('DELETE FROM products WHERE product_id = ?', [product_id]);
+    await db.query('DELETE FROM products WHERE serial_number = ?', [serial_number]);
     res.status(201).json({ message: 'Product deleted successfully' });
   } catch (error) {
     console.error(error);
@@ -81,7 +81,7 @@ const deleteProduct = async (req, res) => {
 module.exports = {
   getAllProducts,
   createProduct,
-  getProductById,
+  getProductBySN,
   updateProduct,
   deleteProduct
 };

@@ -16,10 +16,11 @@ const getAllCompanies = async (req, res) => {
 
 const createCompany = async (req, res) => {
   // Logica para crear una nueva compañia en la base de datos
-  const { company_id, company_name, address, phone_number, email } = req.body;
+  const { company_code, company_name, address, phone_number, email } = req.body;
   try {
-    const [rows, fields] = await db.query('INSERT INTO companies (company_id, company_name, address, phone_number, email) VALUES (?, ?, ?, ?, ?)', 
-    [company_id, company_name, address, phone_number, email]);
+    const [rows, fields] = await db.query('INSERT INTO companies (company_code, company_name, address, phone_number, email) VALUES (?, ?, ?, ?, ?)', 
+    [company_code, company_name, address, phone_number, email]);
+
     res.status(201).json({ message: 'Company created successfully' });
   } catch (error) {
     console.error(error);
@@ -27,11 +28,11 @@ const createCompany = async (req, res) => {
   }
 };
 
-const getCompanyById = async (req, res) => {
+const getCompany = async (req, res) => {
   // Logica para obtener una compañia por ID de la base de datos
-  const company_id = req.params.company_id;
+  const company_code = req.params.company_code;
   try {
-    const [rows, fields] = await db.query('SELECT * FROM companies WHERE company_id = ?', [company_id]);
+    const [rows, fields] = await db.query('SELECT * FROM companies WHERE company_code = ?', [company_code]);
     if(rows.length === 0) {
       return res.status(404).json({ message: 'Company not found' });
     }
@@ -45,14 +46,15 @@ const getCompanyById = async (req, res) => {
 const updateCompany = async (req, res) => {
   // Logica para actualizar una compañia en la base de datos
   const { company_name, address, phone_number, email } = req.body;
-  const company_id = req.params.company_id;
+  const company_code = req.params.company_code;
   try {
-    const [rows, fields] = await db.query('SELECT * FROM companies WHERE company_id = ?', [company_id]);
+    const [rows, fields] = await db.query('SELECT * FROM companies WHERE company_code = ?', [company_code]);
     if (rows.length === 0) {
       return res.status(404).json({ message: 'Company not found' });
     }
-    await db.query('UPDATE companies SET company_name = ?, address = ?, phone_number = ?, email = ? WHERE company_id = ?', 
-    [company_name, address, phone_number, email, company_id]);
+    await db.query('UPDATE companies SET company_name = ?, address = ?, phone_number = ?, email = ? WHERE company_code = ?', 
+    [company_name, address, phone_number, email, company_code]);
+
     res.status(201).json({ message: 'Company updated successfully' });
   } catch (error) {
     console.error(error);
@@ -62,13 +64,13 @@ const updateCompany = async (req, res) => {
 
 const deleteCompany = async (req, res) => {
   // Logica para eliminar una compañia de la base de datos
-  const company_id = req.params.company_id;
+  const company_code = req.params.company_code;
   try {
-    const [rows, fields] = await db.query('SELECT * FROM companies WHERE company_id = ?', [company_id]);
+    const [rows, fields] = await db.query('SELECT * FROM companies WHERE company_code = ?', [company_code]);
     if (rows.length === 0) {
       return res.status(404).json({ message: 'Company not found' });
     }
-    await db.query('DELETE FROM companies WHERE company_id = ?', [company_id]);
+    await db.query('DELETE FROM companies WHERE company_code = ?', [company_code]);
     res.status(201).json({ message: 'Company deleted successfully' });
   } catch (error) {
     console.error(error);
@@ -79,7 +81,7 @@ const deleteCompany = async (req, res) => {
 module.exports = {
   getAllCompanies,
   createCompany,
-  getCompanyById,
+  getCompany,
   updateCompany,
   deleteCompany
 };
