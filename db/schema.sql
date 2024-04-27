@@ -60,3 +60,28 @@ CREATE TABLE IF NOT EXISTS movements (
   FOREIGN KEY (product_id) REFERENCES products(product_id),
   FOREIGN KEY (employee_id) REFERENCES employee_accounts(employee_id)
 );
+
+-- Insert sample data into user_accounts table --
+INSERT INTO user_accounts (username, password, email) VALUES
+('user1', 'password11', 'user1@example.com'),
+('user2', 'password22', 'user2@example.com');
+
+-- Insert sample data into companies table --
+INSERT INTO companies (company_code, company_name, address, phone_number, email) VALUES
+('ABC123', 'Company ABC', '123 Main St, City, Country', '+1234567890', 'info@companyabc.com'),
+('XYZ456', 'Company XYZ', '456 Elm St, City, Country', '+0987654321', 'info@companyxyz.com');
+
+-- Insert sample data into employee_accounts table --
+INSERT INTO employee_accounts (employee_code, company_id, password) VALUES
+('EMP001', 1, 'emp001pass'),
+('EMP002', 2, 'emp002pass');
+
+-- Insert sample data into products table --
+INSERT INTO products (serial_number, product_name, description, manufacturer_id, production_date, status) VALUES
+('SN001', 'Product 1', 'Description of Product 1', 1, '2022-01-01', 'in_stock'),
+('SN002', 'Product 2', 'Description of Product 2', 2, '2022-02-01', 'in_use');
+
+-- Insert sample data into movements table --
+INSERT INTO movements (movement_code, product_id, employee_id, movement_type, movement_date, description) VALUES
+('MOV001', 1, 1, 'sale', '2022-03-01', 'Sale of Product 1'),
+('MOV002', 2, 2, 'return', '2022-04-01', 'Return of Product 2');
