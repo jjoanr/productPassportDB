@@ -4,17 +4,19 @@
 
 const express = require('express');
 const cors = require('cors');
-const rateLimit = require('express-rate-limit');
+// const rateLimit = require('express-rate-limit');
 const app = express();
 const PORT = process.env.PORT || 8080;
 
+/*
 //Rate limiter, max 100 requests per minute
 const limiter = rateLimit ({
   windowMs: 60*1000,
   max: 100,
 });
+*/
 
-app.use(limiter);
+//app.use(limiter);
 
 //Habilitar CORS
 app.use(cors());
