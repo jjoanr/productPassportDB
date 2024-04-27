@@ -28,8 +28,23 @@ const createCompany = async (req, res) => {
   }
 };
 
-const getCompany = async (req, res) => {
-  // Logica para obtener una compañia por ID de la base de datos
+const getCompanyById = async (req, res) => {
+  // Obtener datos compañía por id
+  const company_id = req.params.company_id;
+  try {
+    const [rows, fields] = await db.query('SELECT * FROM companies WHERE company_id = ?', [company_id]);
+    if(rows.length === 0) {
+      return res.status(404).json({ message: 'Company not found' });
+    }
+    res.status(201).json(rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+const getCompanyByCode = async (req, res) => {
+  // Logica para obtener una compañia por company_code de la base de datos
   const company_code = req.params.company_code;
   try {
     const [rows, fields] = await db.query('SELECT * FROM companies WHERE company_code = ?', [company_code]);
@@ -81,7 +96,8 @@ const deleteCompany = async (req, res) => {
 module.exports = {
   getAllCompanies,
   createCompany,
-  getCompany,
+  getCompanyById,
+  getCompanyByCode,
   updateCompany,
   deleteCompany
 };
