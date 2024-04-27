@@ -3,7 +3,7 @@
 // Iniciar el servidor y definir las rutas
 
 const express = require('express');
-const cors = require('cors);
+const cors = require('cors');
 const rateLimit = require('express-rate-limit');
 const app = express();
 const PORT = process.env.PORT || 8080;
