@@ -9,6 +9,7 @@ const productController = require('../controllers/productController');
 
 // Definir rutas para operaciones relacionadas con productos
 router.get('/', productController.getAllProducts);
+router.get('/companyProducts/:company_id', productController.getProductsFromCompanyId);
 router.post('/', productController.createProduct);
 router.get('/:serial_number', productController.getProductBySN);
 router.put('/:serial_number', productController.updateProduct);

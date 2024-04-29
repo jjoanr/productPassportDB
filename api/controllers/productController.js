@@ -43,6 +43,21 @@ const getProductBySN = async (req, res) => {
   }
 };
 
+const getProductsFromCompanyId = async (req, res) => {
+ // Lógica para obtener los productos de una compañía
+  const company_id = req.params.company_id;
+  try {
+    const [rows, fields] = await db.query('SELECT * FROM products WHERE manufacturer_id = ?', [company_id]);
+    if(rows.length === 0) {
+      return res.status(404).json({ message: 'Products not found' });
+    }
+    res.status(201).json(rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
 const updateProduct = async (req, res) => {
   // Lógica para actualizar un producto en la base de datos
   const { product_name, description, status } = req.body;
