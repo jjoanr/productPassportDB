@@ -79,9 +79,11 @@ INSERT INTO employee_accounts (employee_code, company_id, password) VALUES
 -- Insert sample data into products table --
 INSERT INTO products (serial_number, product_name, description, manufacturer_id, production_date, status) VALUES
 ('SN001', 'Product 1', 'Description of Product 1', 1, '2022-01-01', 'in_stock'),
-('SN002', 'Product 2', 'Description of Product 2', 2, '2022-02-01', 'in_use');
+('SN002', 'Product 2', 'Description of Product 2', 2, '2022-02-01', 'in_use'),
+('SN003', 'Product 3', 'Description of Product 3', 2, '2022-05-02', 'in_transit');
 
 -- Insert sample data into movements table --
 INSERT INTO movements (movement_code, product_id, employee_id, movement_type, movement_date, description) VALUES
 ('MOV001', 1, 1, 'sale', '2022-03-01', 'Sale of Product 1'),
-('MOV002', 2, 2, 'return', '2022-04-01', 'Return of Product 2');
+('MOV002', 2, 2, 'return', '2022-04-01', 'Return of Product 2'),
+('MOV003', 2, 2, 'maintenance', '2022-04-10', 'Monthly maintenance');
