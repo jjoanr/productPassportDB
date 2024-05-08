@@ -36,7 +36,7 @@ const validateCredentials = async (req, res) => {
     [employee_code, company_id]);
 
     if(rows.length === 0) {
-      return res.status(404).json({ message: 'Employee not found' });
+      return res.status(401).json({ message: 'Employee not found' });
     }
     const storedPassword = rows[0].password;
     if(storedPassword === password) {

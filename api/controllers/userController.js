@@ -33,7 +33,7 @@ const validateCredentials = async (req, res) => {
   try {
     const [rows, fields] = await db.query('SELECT * FROM user_accounts WHERE username = ?', [username]);
     if(rows.length === 0) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(401).json({ message: 'User not found' });
     }
     const storedPassword = rows[0].password;
     if(storedPassword === password) {
