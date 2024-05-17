@@ -1,7 +1,21 @@
 // api/controllers/productController.js
 // Controlador para manejar las peticiones de productos
 
+const multer = require('multer');
 const db = require('../../db/connection');
+const path = require('path');
+
+// configurar multer
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/');
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + '-' + file.originalname);
+  }
+});
+
+const upload = multer({ storage: storage }).single('image');
 
 const getAllProducts = async (req, res) => {
   // Lógica para obtener todos los productos de la base de datos
@@ -15,17 +29,26 @@ const getAllProducts = async (req, res) => {
 };
 
 const createProduct = async (req, res) => {
-  // Lógica para crear un nuevo producto en la base de datos
-  const { serial_number, product_name, description, manufacturer_id, production_date, status } = req.body;
-  try {
-    const [rows, fields] = await db.query('INSERT INTO products (serial_number, product_name, description, manufacturer_id, production_date, status) VALUES (?, ?, ?, ?, ?, ?)', 
-    [serial_number, product_name, description, manufacturer_id, production_date, status]);
+  upload(req, res, async (err) => {
+    if (err) {
+      return res.status(500).json({ message: 'Error uploading file', error: err });
+    }
 
-    res.status(201).json({ message: 'Product created successfully' });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Internal server error' });
-  }
+    const { serial_number, product_name, description, manufacturer_id, production_date, status } = req.body;
+    const imagePath = req.file ? req.file.path : null;
+
+    try {
+      const [rows, fields] = await db.query(
+        'INSERT INTO products (serial_number, product_name, description, manufacturer_id, production_date, status, image_path) VALUES (?, ?, ?, ?, ?, ?, ?)', 
+        [serial_number, product_name, description, manufacturer_id, production_date, status, imagePath]
+      );
+
+      res.status(201).json({ message: 'Product created successfully' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  });
 };
 
 const getProductBySN = async (req, res) => {

@@ -9,6 +9,7 @@ services:
       MYSQL_USER: dpp
       MYSQL_PASSWORD: dpp123
     volumes:
+      - db_data:/var/lib/mysql
       - ./db:/docker-entrypoint-initdb.d
     ports:
       - "3306:3306"
@@ -20,3 +21,9 @@ services:
     restart: always
     depends_on:
       - db
+    volumes:
+      - api_data:/app/uploads
+
+volumes:
+  db_data:
+  api_data:
