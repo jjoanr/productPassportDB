@@ -1,6 +1,7 @@
 // api/controllers/productController.js
 // Controlador para manejar las peticiones de productos
 
+const express = require('express');
 const multer = require('multer');
 const db = require('../../db/connection');
 const path = require('path');
@@ -12,13 +13,11 @@ const storage = multer.diskStorage({
     cb(null, uploadDir);
   },
   filename: function (req, file, cb) {
-    const imageDetails = req.body ? JSON.parse(req.body.jsonInput) : {};
-    const { filename } = imageDetails;
-    cb(null, filename || file.originalname);
+    cb(null, file.originalname);
   }
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({ storage: storage }).single('image');
 
 const getAllProducts = async (req, res) => {
   // Lógica para obtener todos los productos de la base de datos
@@ -32,42 +31,25 @@ const getAllProducts = async (req, res) => {
 };
 
 const createProduct = async (req, res) => {
-  const { jsonInput } = req.body;
-  const imageDetails = JSON.parse(jsonInput);
-  const { serial_number, product_name, description, manufacturer_id, production_date, status } = imageDetails;
-
   upload(req, res, async (err) => {
     if (err) {
       return res.status(500).json({ message: 'Error uploading file', error: err });
     }
 
-    console.log('File uploaded:', req.file);
-    console.log('Request body:', req.body);
-
-    const image_path = req.file ? req.file.path : null;
-
-    console.log('Received data:', {
-      serial_number,
-      product_name,
-      description,
-      manufacturer_id,
-      production_date,
-      status,
-      image_path
-    });
-
     try {
+      const { serial_number, product_name, description, manufacturer_id, production_date, status } = req.body;
+
+      const image_path = req.file ? req.file.path : null;
+
       const [rows, fields] = await db.query(
         'INSERT INTO products (serial_number, product_name, description, manufacturer_id, production_date, status, image_path) VALUES (?, ?, ?, ?, ?, ?, ?)',
         [serial_number, product_name, description, manufacturer_id, production_date, status, image_path]
       );
 
-      console.log('Database insert successful.');
-
       res.status(201).json({ message: 'Product created successfully' });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: 'Internal server error...' });
+      res.status(500).json({ message: 'Internal server error' });
     }
   });
 };
