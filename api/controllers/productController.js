@@ -38,19 +38,32 @@ const createProduct = async (req, res) => {
       return res.status(500).json({ message: 'Error uploading file', error: err });
     }
 
+    console.log('Image uploaded successfully:', req.file);
     const { serial_number, product_name, description, manufacturer_id, production_date, status } = req.body;
-    const imagePath = req.file ? req.file.path : null;
+    const image_path = req.file ? req.file.path : null;
+
+    console.log('Received data:', {
+      serial_number,
+      product_name,
+      description,
+      manufacturer_id,
+      production_date,
+      status,
+      imagePath
+    });
 
     try {
       const [rows, fields] = await db.query(
         'INSERT INTO products (serial_number, product_name, description, manufacturer_id, production_date, status, image_path) VALUES (?, ?, ?, ?, ?, ?, ?)', 
-        [serial_number, product_name, description, manufacturer_id, production_date, status, imagePath]
+        [serial_number, product_name, description, manufacturer_id, production_date, status, image_path]
       );
+      
+      console.log('Database insert successful.');
 
       res.status(201).json({ message: 'Product created successfully' });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: 'Internal server error' });
+      res.status(500).json({ message: 'Internal server error...' });
     }
   });
 };
