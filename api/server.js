@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 8080;
 // payload size limit (e.g., 50MB)
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
-
+app.use('/uploads', express.static('uploads'));
 /*
 //Rate limiter, max 100 requests per minute
 const limiter = rateLimit ({
