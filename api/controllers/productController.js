@@ -11,11 +11,11 @@ const storage = multer.diskStorage({
     cb(null, 'uploads/');
   },
   filename: function (req, file, cb) {
-    const serialNumber = req.body.serial_number; // Assuming you're sending the serial number in the request body
-    const originalname = file.originalname; // Original name of the file
-    const extension = path.extname(originalname); // Get the extension of the original file
-    const filename = serialNumber + extension; // Concatenate serial number and extension
-    cb(null, filename); // Call the callback with the custom filename
+    const serialNumber = req.body.serial_number;
+    const originalname = file.originalname;
+    const extension = path.extname(file.originalname);
+    const filename = `${serialNumber}${extension}`;
+    cb(null, filename);
   }
 });
 
