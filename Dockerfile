@@ -11,7 +11,7 @@ COPY package*.json ./
 RUN npm install
 
 # Create uploads directory
-RUN mkdir -p /app/uploads
+RUN mkdir -p /app/uploads && chmod -R 777 /app/uploads
 
 # Copy the rest of the application code
 COPY . .

@@ -22,7 +22,7 @@ services:
     depends_on:
       - db
     volumes:
-      - api_data:/app/uploads
+      - ./uploads:/app/uploads
 
 volumes:
   db_data:

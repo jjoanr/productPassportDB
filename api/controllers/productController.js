@@ -33,6 +33,7 @@ const getAllProducts = async (req, res) => {
 const createProduct = async (req, res) => {
   upload(req, res, async (err) => {
     if (err) {
+      console.log('Error uploading file:', err);
       return res.status(500).json({ message: 'Error uploading file', error: err });
     }
 
@@ -45,6 +46,8 @@ const createProduct = async (req, res) => {
         'INSERT INTO products (serial_number, product_name, description, manufacturer_id, production_date, status, image_path) VALUES (?, ?, ?, ?, ?, ?, ?)',
         [serial_number, product_name, description, manufacturer_id, production_date, status, image_path]
       );
+
+      console.log('File uploaded to:', image_path);
 
       res.status(201).json({ message: 'Product created successfully' });
     } catch (error) {
