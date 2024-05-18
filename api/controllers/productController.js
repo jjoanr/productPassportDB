@@ -12,7 +12,6 @@ const storage = multer.diskStorage({
   },
   filename: function (req, file, cb) {
     const serialNumber = req.body.serial_number;
-    const originalname = file.originalname;
     const extension = path.extname(file.originalname);
     const filename = `${serialNumber}${extension}`;
     cb(null, filename);
@@ -38,7 +37,8 @@ const createProduct = async (req, res) => {
       return res.status(500).json({ message: 'Error uploading file', error: err });
     }
 
-    console.log('Image uploaded successfully:', req.file);
+    console.log('File uploaded:', req.file);
+    console.log('Request body:' req.body);
     const { serial_number, product_name, description, manufacturer_id, production_date, status } = req.body;
     const image_path = req.file ? req.file.path : null;
 
@@ -49,7 +49,7 @@ const createProduct = async (req, res) => {
       manufacturer_id,
       production_date,
       status,
-      imagePath
+      image_path
     });
 
     try {
