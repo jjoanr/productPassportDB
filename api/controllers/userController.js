@@ -3,6 +3,8 @@
 
 const db = require('../../db/connection');
 
+const bcrypt = require('bcryptjs');
+
 const getAllUsers = async (req, res) => {
   // Logica para obtener todos los usuarios de la base de datos
   try {
@@ -36,7 +38,8 @@ const validateCredentials = async (req, res) => {
       return res.status(401).json({ message: 'User not found' });
     }
     const storedPassword = rows[0].password;
-    if(storedPassword === password) {
+    const isPasswordValid = await bcrypt.compare(password, storedPassword);
+    if(isPasswordValid) {
       return res.status(201).json({ message: 'Credentials validated successfully' });
     } else {
       return res.status(401).json({ message: 'Invalid password' });
