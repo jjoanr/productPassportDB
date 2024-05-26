@@ -3,7 +3,7 @@
 
 const db = require('../../db/connection');
 
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt');
 
 const getAllUsers = async (req, res) => {
   // Logica para obtener todos los usuarios de la base de datos
